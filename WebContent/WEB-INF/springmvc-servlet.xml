@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="viewResolver" 
+	      class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
+	      p:prefix="" 
+	      p:suffix=".jsp" />
+               
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	    <property name="basename">
+	       <value>bundle.messages</value>
+	    </property>
+	</bean>   
+	
+    <bean name="/Index.sp"    
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+	      p:viewName="Jsp_Index" />	            
+               
+    <bean id="recordService" 
+          class="service.RecordServiceImpl" />
+	
+	<bean name="/AddDirectory.sp" 
+	      class="controller.RecordController" 
+	      p:recordService-ref="recordService" 
+	      p:formView="Jsp_Record" 
+	      p:successView="Jsp_Record" >
+	      <property name="validator">
+	        <bean class="validator.RecordValidator"/>
+	      </property>
+	</bean>	
+	      
+    <bean id="searchService" 
+          class="service.SearchServiceImpl" />
+	
+	<bean name="/SearchDirectory.sp" 
+	      class="controller.SearchController" 
+	      p:searchService-ref="searchService" 
+	      p:formView="Jsp_Search" 
+	      p:successView="Jsp_Search" >
+	      <property name="validator">
+	        <bean class="validator.SearchValidator"/>
+	      </property>	      
+	</bean>	    
+	
+</beans>
